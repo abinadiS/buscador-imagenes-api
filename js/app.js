@@ -1,5 +1,7 @@
 const resultado = document.querySelector('#resultado');
 const formulario = document.querySelector('#formulario');
+const registroPorPagina = 40;
+let paginaActual= 1;
 
 window.onload = () => {
     formulario.addEventListener('submit', validarFormulario);
@@ -17,7 +19,7 @@ function validarFormulario(e){
     }
 
     buscarImagenes(termino);
-    formulario.reset();
+    
 }
 
 function mostrarAlerta(mensaje){
@@ -41,17 +43,65 @@ function mostrarAlerta(mensaje){
 
 function buscarImagenes(termino){
     const key = '9418877-923076123dbc1e90c2dd58d13';
-    const url = `https://pixabay.com/api/?key=${key}&q=${termino}`;
+    const url = `https://pixabay.com/api/?key=${key}&q=${termino}&per_page=20&page=${paginaActual}`;
+    
     
 
     fetch(url)
     .then(respuesta => respuesta.json())
     .then(resultado => {
+        const totalPaginas = calcularPaginas(resultado.totalHits);
+        console.log(totalPaginas);
             mostrarImagenes(resultado.hits);
         })
 
 }
 
-function mostrarImagenes(imagenes){
-    
+
+function calcularPaginas(total){
+    return parseInt(Math.ceil(total/ registroPorPagina));
 }
+
+
+function mostrarImagenes(imagenes){
+    while(resultado.firstChild){
+        resultado.removeChild(resultado.firstChild)
+    };
+    //Iterar sobre el arreglo y construir sobre el html
+
+    imagenes.forEach( imagen => {
+        const {previewURL, likes, largeImageURL,views} = imagen;
+        console.log(imagen)
+
+        resultado.innerHTML += `
+        <div class = "w-1/2 md:w-1/3 lg:w-1/ p-3 mb-4">
+            <div class= "bg-white">
+            <img class= "w-full" src = "${previewURL}">
+
+            <div class = "p-4">
+                <p class = "font-bold">${likes} <span class = "font-light">Me gusta</span></p>
+                <p class = "font-bold">${views} <span class = "font-light">Views</span></p>
+                <a href ="${largeImageURL}" target ="_blank" rel="noopener noreferrer">
+                Ver Imagen
+                </a>
+            </div>
+            
+            </div>
+            </div>
+        `
+    })
+}
+
+    const next = document.querySelector('#next');
+
+    next.addEventListener('click', ()=>{
+        paginaActual += 1;
+        const termino = document.querySelector('#termino').value;
+     
+
+        buscarImagenes(termino);
+
+
+
+        
+    });
