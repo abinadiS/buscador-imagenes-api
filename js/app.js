@@ -76,7 +76,7 @@ function mostrarImagenes(imagenes){
         resultado.innerHTML += `
         <div class = "w-1/2 md:w-1/3 lg:w-1/ p-3 mb-4">
             <div class= "bg-white">
-            <img class= "w-full" src = "${previewURL}">
+            <img class= "imagen" src = "${previewURL}">
 
             <div class = "p-4">
                 <p class = "font-bold">${likes} <span class = "font-light">Me gusta</span></p>
