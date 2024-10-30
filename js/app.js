@@ -26,7 +26,7 @@ function mostrarAlerta(mensaje){
     const existeAlerta = document.querySelector('.bg-red-100')
     if(!existeAlerta){
     const alerta = document.createElement('p');
-    alerta.classList.add('bg-red-100', 'border-re-400', 'text-red-700', 'px-4','py-3','rounded','max-wlg','mx-auto', 'mt-6','text-center');
+    alerta.classList.add('bg-red-100', 'border-red-400', 'text-red-700', 'px-4','py-3','rounded','max-wlg','mx-auto', 'mt-6','text-center');
 
     alerta.innerHTML = `<strong class = "font-bold">Error</strong>
                         <span class="block sn:inline">${mensaje}</span>
